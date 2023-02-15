@@ -47,8 +47,16 @@ suite('Functional Tests', function () {
     });
     // #4
     test('Send {surname: "da Verrazzano"}', function (done) {
-      assert.fail();
-
+      chai
+        .request(server)
+        .put( '/travellers' )
+        .send( { surname: "da Verrazzano" } )
+        .end( ( req, res )=>{
+          assert.equal( res.status, 200, 'Estado de la solicutd' );
+          assert.equal( res.type, 'application/json', 'Tipo de solicitud' );
+          assert.equal( res.body.name, 'Giovanni', 'Parametros del cuerpo de la solicitud' );
+          assert.equal( res.body.surname, 'da Verrazzano', 'Parametros del cuerpo de la solicitud' );
+        });
       done();
     });
   });
